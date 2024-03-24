@@ -72,23 +72,58 @@ def show_predict_page():
         predi = gradient_boost.predict(X_df)
 
         # Display prediction result
+        # Display prediction result
         if predi == 1:
             st.write("The customer is eligible for a loan.")
-            if income < 20000:
-                st.write("Recommendation: Consider offering a lower loan amount or a longer repayment period.")
-            elif income >= 20000 and income < 50000:
-                st.write("Recommendation: Offer a standard loan package.")
+            if age < 30:
+                st.write("Recommendation: Offer a loan with a shorter duration to match the customer's young age.")
+            elif age >= 30 and Age < 50:
+                st.write("Recommendation: Provide a standard loan package with moderate terms.")
             else:
-                st.write("Recommendation: Offer premium loan packages with additional benefits.")
+                st.write("Recommendation: Consider offering longer loan durations to align with the customer's senior age group.")
+            
+            if selected_saving_accounts == 'little':
+                st.write("Recommendation: Encourage the customer to save more to build a stronger financial profile.")
+            elif selected_saving_accounts == 'moderate':
+                st.write("Recommendation: Suggest considering higher savings to increase financial stability.")
+            elif selected_saving_accounts == 'rich':
+                st.write("Recommendation: Acknowledge the customer's strong financial position and offer premium loan options.")
+            
+            if selected_checking_account == 'little':
+                st.write("Recommendation: Recommend the customer to manage their checking account balance more effectively.")
+            elif selected_checking_account == 'moderate':
+                st.write("Recommendation: Maintain a steady balance in the checking account for better financial management.")
+            elif selected_checking_account == 'rich':
+                st.write("Recommendation: Utilize excess funds in the checking account to explore investment opportunities.")
+            
+            if credit_amount < 5000:
+                st.write("Recommendation: Offer smaller loan amounts to match the customer's current credit needs.")
+            elif credit_amount >= 5000 and Credit_amount < 10000:
+                st.write("Recommendation: Provide a standard loan amount suitable for typical expenses.")
+            else:
+                st.write("Recommendation: Consider offering larger loan amounts to accommodate significant financial requirements.")
+            
         elif predi == 0:
             st.write("The customer is not eligible for a loan.")
-            if credit_score < 600:
-                st.write("Recommendation: Provide guidance on improving credit score before reapplying for a loan.")
-            elif credit_score >= 600 and credit_score < 700:
-                st.write("Recommendation: Suggest alternative financing options with flexible terms.")
+            if selected_job == 'unskilled':
+                st.write("Recommendation: Advise the customer to seek employment opportunities with higher income potential.")
+            elif selected_job == 'skilled':
+                st.write("Recommendation: Explore alternative financing options or loan programs tailored for skilled workers.")
             else:
-                st.write("Recommendation: Encourage the customer to build a stronger financial profile and reapply later.")
+                st.write("Recommendation: Encourage the customer to improve their employment status for better financial stability.")
+            
+            if selected_saving_accounts == 'little' or selected_checking_account == 'little':
+                st.write("Recommendation: Recommend focusing on building savings and improving financial management habits.")
+            elif selected_saving_accounts == 'moderate' or selected_checking_account == 'moderate':
+                st.write("Recommendation: Suggest maintaining a consistent savings and checking account balance to enhance financial stability.")
+            elif selected_saving_accounts == 'rich' or selected_checking_account == 'rich':
+                st.write("Recommendation: Acknowledge the customer's strong financial position and advise exploring alternative financing options.")
+            
+            if credit_amount > 20000:
+                st.write("Recommendation: Consider reducing the loan amount or exploring alternative financing options to match the customer's financial capacity.")
+            else:
+                st.write("Recommendation: Review the loan amount and duration to ensure alignment with the customer's financial situation.")
+            
         else:
             st.warning("Unable to make a prediction. Please investigate further.")
-            st.write("Recommendation: Conduct a thorough review of the customer's financial documents and history.")
-
+            st.write("Recommendation: Conduct a detailed assessment of the customer's financial situation and explore personalized solutions.")
