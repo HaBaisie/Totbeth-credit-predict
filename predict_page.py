@@ -72,23 +72,23 @@ def show_predict_page():
         predi = gradient_boost.predict(X_df)
 
         # Display prediction result
-    if predi == 1:
-        st.write("The customer is eligible for a loan.")
-        if income < 20000:
-            st.write("Recommendation: Consider offering a lower loan amount or a longer repayment period.")
-        elif income >= 20000 and income < 50000:
-            st.write("Recommendation: Offer a standard loan package.")
+        if predi == 1:
+            st.write("The customer is eligible for a loan.")
+            if income < 20000:
+                st.write("Recommendation: Consider offering a lower loan amount or a longer repayment period.")
+            elif income >= 20000 and income < 50000:
+                st.write("Recommendation: Offer a standard loan package.")
+            else:
+                st.write("Recommendation: Offer premium loan packages with additional benefits.")
+        elif predi == 0:
+            st.write("The customer is not eligible for a loan.")
+            if credit_score < 600:
+                st.write("Recommendation: Provide guidance on improving credit score before reapplying for a loan.")
+            elif credit_score >= 600 and credit_score < 700:
+                st.write("Recommendation: Suggest alternative financing options with flexible terms.")
+            else:
+                st.write("Recommendation: Encourage the customer to build a stronger financial profile and reapply later.")
         else:
-            st.write("Recommendation: Offer premium loan packages with additional benefits.")
-    elif predi == 0:
-        st.write("The customer is not eligible for a loan.")
-        if credit_score < 600:
-            st.write("Recommendation: Provide guidance on improving credit score before reapplying for a loan.")
-        elif credit_score >= 600 and credit_score < 700:
-            st.write("Recommendation: Suggest alternative financing options with flexible terms.")
-        else:
-            st.write("Recommendation: Encourage the customer to build a stronger financial profile and reapply later.")
-    else:
-        st.warning("Unable to make a prediction. Please investigate further.")
-        st.write("Recommendation: Conduct a thorough review of the customer's financial documents and history.")
+            st.warning("Unable to make a prediction. Please investigate further.")
+            st.write("Recommendation: Conduct a thorough review of the customer's financial documents and history.")
 
