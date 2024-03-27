@@ -74,7 +74,7 @@ def show_predict_page():
         # Display prediction result
         # Display prediction result
         if predi == 1:
-            st.write("The customer is eligible for a loan.")
+            st.write("This customer is eligible for a loan.")
             if age < 30:
                 st.write("Recommendation: Offer a loan with a shorter duration to match the customer's young age.")
             elif age >= 30 and Age < 50:
@@ -104,7 +104,7 @@ def show_predict_page():
                 st.write("Recommendation: Consider offering larger loan amounts to accommodate significant financial requirements.")
             
         elif predi == 0:
-            st.write("The customer is not eligible for a loan.")
+            st.write("This customer is not eligible for a loan.")
             if selected_job == 'unskilled':
                 st.write("Recommendation: Advise the customer to seek employment opportunities with higher income potential.")
             elif selected_job == 'skilled':
