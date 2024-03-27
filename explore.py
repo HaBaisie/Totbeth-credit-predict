@@ -17,7 +17,7 @@ def explore_data():
         2: "skilled",
         3: "highly skilled"
     })
-    st.title("German Credit Data Exploration")
+    st.title("Loan Application Data Exploration")
 
     st.header("Data Overview")
     st.write("Displaying the first few rows of the dataset:")
