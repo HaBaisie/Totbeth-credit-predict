@@ -20,7 +20,7 @@ P_encoder = data["P_encoder"]
 feature_names = ['Age', 'Sex', 'Job', 'Housing', 'Saving accounts', 'Checking account', 'Credit amount', 'Duration', 'Purpose']
 
 def show_predict_page():
-    st.title("Software Developer Credit Risk Prediction")
+    st.title("Loan Prediction and Recommendation System")
 
     st.write("""### We need some information for prediction""")
 
