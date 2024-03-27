@@ -34,13 +34,13 @@ def show_predict_page():
     selected_sex = st.selectbox("Sex", Sex)
     selected_job = st.selectbox("Skill Level", Job)
     selected_housing = st.selectbox("Housing", Housing)
-    selected_saving_accounts = st.selectbox("Saving accounts rate", Saving_accounts)
-    selected_checking_account = st.selectbox("Checking account Rate", Checking_account)
+    selected_saving_accounts = st.selectbox("Saving Accounts Rate", Saving_accounts)
+    selected_checking_account = st.selectbox("Current Account Rate", Checking_account)
     selected_purpose = st.selectbox("Purpose of Credit", Purpose)
 
     age = st.number_input("Age", min_value=18, step=1)
-    credit_amount = st.number_input("Credit amount in Naira", min_value=0, step=1)
-    duration = st.number_input("Duration", min_value=0, step=1)
+    credit_amount = st.number_input("Requested Amount (Naira)", min_value=0, step=1)
+    duration = st.number_input("Duration (Month)", min_value=0, step=1)
 
     ok = st.button("Predict")
     if ok:
