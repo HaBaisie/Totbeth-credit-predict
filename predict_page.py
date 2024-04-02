@@ -27,8 +27,8 @@ def show_predict_page():
     Sex = ("male", "female")
     Job = ("unskilled and non-resident", "unskilled and resident", "skilled", "highly skilled")
     Housing = ("own", "free", "rent")
-    Saving_accounts = ("none", "little", "quite rich", "rich", "moderate")
-    Checking_account = ("little", "moderate", "none", "rich")
+    Saving_accounts = ("0", "less than 50", "50-150", "150-500", "20-100")
+    Checking_account = ("less than 50", "20-100", "0", "150-500")
     Purpose = ("radio/TV", "education", "furniture/equipment", "car", "business", "domestic appliances", "repairs", "vacation/others")
 
     selected_sex = st.selectbox("Sex", Sex)
@@ -44,14 +44,41 @@ def show_predict_page():
 
     ok = st.button("Predict")
     if ok:
+        # Input validation
+        if age < 18:
+            st.warning("Age should be at least 18 years old.")
+            return
+        if credit_amount <= 0:
+            st.warning("Requested Amount should be greater than zero.")
+            return
+        if duration <= 0:
+            st.warning("Duration should be greater than zero.")
+            return
+
+        # Mapping custom labels to original values
+        saving_account_mapping = {
+            "0": "none",
+            "less than 50": "little",
+            "50-150": "quite rich",
+            "150-500": "rich",
+            "20-100": "moderate"
+        }
+
+        checking_account_mapping = {
+            "0": "none",
+            "less than 50": "little",
+            "20-100": "moderate",
+            "150-500": "rich"
+        }
+
         # Create a dictionary to map user input to feature names
         user_input = {
             "Age": age,
             "Sex": selected_sex,
             "Job": selected_job,
             "Housing": selected_housing,
-            "Saving accounts": selected_saving_accounts,
-            "Checking account": selected_checking_account,
+            "Saving accounts": saving_account_mapping[selected_saving_accounts],
+            "Checking account": checking_account_mapping[selected_checking_account],
             "Credit amount": credit_amount,
             "Duration": duration,
             "Purpose": selected_purpose
@@ -61,28 +88,32 @@ def show_predict_page():
         X_df = pd.DataFrame([user_input], columns=feature_names)
 
         # Encode categorical features
-        X_df["Sex"] = S_encoder.transform(X_df["Sex"])
-        X_df["Job"] = J_encoder.transform(X_df["Job"])
-        X_df["Housing"] = H_encoder.transform(X_df["Housing"])
-        X_df["Saving accounts"] = SA_encoder.transform(X_df["Saving accounts"])
-        X_df["Checking account"] = CA_encoder.transform(X_df["Checking account"])
-        X_df["Purpose"] = P_encoder.transform(X_df["Purpose"])
+        try:
+            X_df["Sex"] = S_encoder.transform(X_df["Sex"])
+            X_df["Job"] = J_encoder.transform(X_df["Job"])
+            X_df["Housing"] = H_encoder.transform(X_df["Housing"])
+            X_df["Saving accounts"] = SA_encoder.transform(X_df["Saving accounts"])
+            X_df["Checking account"] = CA_encoder.transform(X_df["Checking account"])
+            X_df["Purpose"] = P_encoder.transform(X_df["Purpose"])
+        except KeyError as e:
+            st.warning(f"Invalid input: {e}. Please provide valid input.")
+            return
 
         # Make prediction
         predi = gradient_boost.predict(X_df)
 
         # Display prediction result
-        # Display prediction result
         if predi == 1:
             st.write("This customer is eligible for a loan.")
+            # Recommendations
             if age < 30:
                 st.write("Recommendation: Offer a loan with a shorter duration to match the customer's young age.")
-            elif age >= 30 and Age < 50:
+            elif 30 <= age < 50:
                 st.write("Recommendation: Provide a standard loan package with moderate terms.")
             else:
                 st.write("Recommendation: Consider offering longer loan durations to align with the customer's senior age group.")
             
-            if selected_saving_accounts == 'little':
+            if selected_saving_accounts == 'less than 50':
                 st.write("Recommendation: Encourage the customer to save more to build a stronger financial profile.")
             elif selected_saving_accounts == 'moderate':
                 st.write("Recommendation: Suggest considering higher savings to increase financial stability.")
@@ -98,13 +129,14 @@ def show_predict_page():
             
             if credit_amount < 5000:
                 st.write("Recommendation: Offer smaller loan amounts to match the customer's current credit needs.")
-            elif credit_amount >= 5000 and Credit_amount < 10000:
+            elif 5000 <= credit_amount < 10000:
                 st.write("Recommendation: Provide a standard loan amount suitable for typical expenses.")
             else:
                 st.write("Recommendation: Consider offering larger loan amounts to accommodate significant financial requirements.")
             
         elif predi == 0:
             st.write("This customer is not eligible for a loan.")
+            # Recommendations
             if selected_job == 'unskilled':
                 st.write("Recommendation: Advise the customer to seek employment opportunities with higher income potential.")
             elif selected_job == 'skilled':
