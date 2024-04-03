@@ -27,15 +27,15 @@ def show_predict_page():
     Sex = ("male", "female")
     Job = ("unskilled and non-resident", "unskilled and resident", "skilled", "highly skilled")
     Housing = ("own", "free", "rent")
-    Saving_accounts = ("0", "less than 50", "50-150", "150-500", "20-100")
-    Checking_account = ("less than 50", "20-100", "0", "150-500")
+    Saving_accounts = ("0", "1-100,000", "101,000-500,000", "501,000-1,000,000", "above 1,000,000")
+    Checking_account = ("0-100,000", "101,000-500,000", "501,000-1,000,000",  "above 1,000,000")
     Purpose = ("radio/TV", "education", "furniture/equipment", "car", "business", "domestic appliances", "repairs", "vacation/others")
 
     selected_sex = st.selectbox("Sex", Sex)
     selected_job = st.selectbox("Skill Level", Job)
     selected_housing = st.selectbox("Housing", Housing)
-    selected_saving_accounts = st.selectbox("Saving Accounts Rate", Saving_accounts)
-    selected_checking_account = st.selectbox("Current Account Rate", Checking_account)
+    selected_saving_accounts = st.selectbox("Saving Accounts Range (Naira)", Saving_accounts)
+    selected_checking_account = st.selectbox("Current Account Range (Naira)", Checking_account)
     selected_purpose = st.selectbox("Purpose of Credit", Purpose)
 
     age = st.number_input("Age", min_value=18, step=1)
@@ -58,17 +58,17 @@ def show_predict_page():
         # Mapping custom labels to original values
         saving_account_mapping = {
             "0": "none",
-            "less than 50": "little",
-            "50-150": "quite rich",
-            "150-500": "rich",
-            "20-100": "moderate"
+            "1-100,000": "little",
+            "101,000-500,000": "quite rich",
+            "501,000-1,000,000": "rich",
+            "above 1,000,000": "moderate"
         }
 
         checking_account_mapping = {
-            "0": "none",
-            "less than 50": "little",
-            "20-100": "moderate",
-            "150-500": "rich"
+            "0-100,000": "none",
+            "101,000-500,000": "little",
+            "501,000-1,000,000": "moderate",
+            "above 1,000,000": "rich"
         }
 
         # Create a dictionary to map user input to feature names
@@ -121,11 +121,11 @@ def show_predict_page():
                 st.write("Recommendation: Acknowledge the customer's strong financial position and offer premium loan options.")
             
             if selected_checking_account == 'little':
-                st.write("Recommendation: Recommend the customer to manage their checking account balance more effectively.")
+                st.write("Recommendation: Recommend the customer to manage their currrent account balance more effectively.")
             elif selected_checking_account == 'moderate':
-                st.write("Recommendation: Maintain a steady balance in the checking account for better financial management.")
+                st.write("Recommendation: Maintain a steady balance in the current account for better financial management.")
             elif selected_checking_account == 'rich':
-                st.write("Recommendation: Utilize excess funds in the checking account to explore investment opportunities.")
+                st.write("Recommendation: Utilize excess funds in the current account to explore investment opportunities.")
             
             if credit_amount < 5000:
                 st.write("Recommendation: Offer smaller loan amounts to match the customer's current credit needs.")
@@ -147,7 +147,7 @@ def show_predict_page():
             if selected_saving_accounts == 'little' or selected_checking_account == 'little':
                 st.write("Recommendation: Recommend focusing on building savings and improving financial management habits.")
             elif selected_saving_accounts == 'moderate' or selected_checking_account == 'moderate':
-                st.write("Recommendation: Suggest maintaining a consistent savings and checking account balance to enhance financial stability.")
+                st.write("Recommendation: Suggest maintaining a consistent savings and current account balance to enhance financial stability.")
             elif selected_saving_accounts == 'rich' or selected_checking_account == 'rich':
                 st.write("Recommendation: Acknowledge the customer's strong financial position and advise exploring alternative financing options.")
             
